@@ -1,26 +1,296 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ===========================================================================
+   Bright editorial system — Apple/Stripe lineage.
+   Pure canvas, near-black type, hairline structure, one blue accent.
+=========================================================================== */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Mode Variables ("sci-fi gray" / common) */
+  --bg-0: #F3F4F6;
+  --bg-1: #E9EBEF;
+  --ink: #0F1218;
+  --muted: #5B6472;
+  --node: #1B1F27;
+  --trace: #8A93A3;
+  --glow: #BFE9FF;
+  --line: #0F1218;
+
+  --background: var(--bg-0);
+  --foreground: var(--ink);
+  --surface: rgba(0, 0, 0, 0.03);
+  --surface-hover: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --accent: #000000;
+  --accent-foreground: #ffffff;
+  
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-io: cubic-bezier(.65,0,.35,1);
+
+  /* The Mindset Variables (Light) */
+  --mindset-bg: #F4F5F7;
+  --mindset-surface: #ECEEF1;
+  --mindset-ink: #0E1116;
+  --mindset-ghost: #A6ADB8;
+  --mindset-trace: #C2C7CF;
+  --mindset-core: #0E1116;
+  --mindset-hair: rgba(14,17,22,0.08);
+
+  /* VS Code Syntax Colors (Light) */
+  --vsc-kw: #000000;
+  --vsc-kw2: #000000;
+  --vsc-fn: #000000;
+  --vsc-cl: #000000;
+  --vsc-vr: #000000;
+  --vsc-op: #000000;
+  --vsc-st: #000000;
+}
+
+.dark {
+  /* Dark Mode Variables ("black & white") */
+  --bg-0: #0B0C0E;
+  --bg-1: #141619;
+  --ink: #F5F6F8;
+  --muted: #9AA1AC;
+  --node: #000000;
+  --trace: #FFFFFF;
+  --glow: #FFFFFF;
+  --line: #FFFFFF;
+
+  --background: var(--bg-0);
+  --foreground: var(--ink);
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+
+  /* The Mindset Variables (Dark) */
+  --mindset-bg: #0B0C0E;
+  --mindset-surface: #141619;
+  --mindset-ink: #F5F6F8;
+  --mindset-ghost: #5B626D;
+  --mindset-trace: #3A3F47;
+  --mindset-core: #F5F6F8;
+  --mindset-hair: rgba(245,246,248,0.08);
+
+  /* VS Code Syntax Colors (Dark) */
+  --vsc-kw: #569CD6;
+  --vsc-kw2: #C586C0;
+  --vsc-fn: #DCDCAA;
+  --vsc-cl: #4EC9B0;
+  --vsc-vr: #9CDCFE;
+  --vsc-op: #D4D4D4;
+  --vsc-st: #CE9178;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    var(--surface-hover) 0%,
+    transparent 50%
+  );
+  background-attachment: fixed;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ultra Premium Glassmorphism */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-nav {
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Lenis Recommended CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-1);
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+
+::selection {
+  background: var(--foreground);
+  color: var(--background);
+}
+
+/* Force pointer cursors on all clickables */
+a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"] {
+  cursor: pointer !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Editorial typography
+--------------------------------------------------------------------------- */
+.display {
+  font-weight: 560;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.headline {
+  font-weight: 560;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accent inline link with animated underline */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------------------------------------------------------------------------
+   Custom cursor — hide native on fine pointers
+--------------------------------------------------------------------------- */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor a,
+  .has-custom-cursor button,
+  .has-custom-cursor [role="button"] {
+    cursor: none;
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Motion
+--------------------------------------------------------------------------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Hero aurora — soft, off-white, NOT a gradient blob soup. Very subtle. */
+.aurora {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 70%;
+  background:
+    radial-gradient(40% 60% at 70% 20%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%),
+    radial-gradient(30% 50% at 20% 30%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* Notched devices — keep content clear of the home indicator on tall phones.
+   The fixed header applies its own safe-area top padding via a utility class. */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
