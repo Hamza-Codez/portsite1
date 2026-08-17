@@ -104,6 +104,14 @@ const HoverCard = ({ s, i }: { s: (typeof steps)[number]; i: number }) => {
     mouseY.set(e.clientY - top);
   };
 
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!ref.current) return;
+    const { left, top } = ref.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    mouseX.set(touch.clientX - left);
+    mouseY.set(touch.clientY - top);
+  };
+
   const Icon = iconMap[s.n];
 
   return (
@@ -112,6 +120,9 @@ const HoverCard = ({ s, i }: { s: (typeof steps)[number]; i: number }) => {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={(e) => { setIsHovered(true); handleTouchMove(e); }}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={() => setIsHovered(false)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}

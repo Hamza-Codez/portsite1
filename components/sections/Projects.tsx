@@ -2,12 +2,13 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { Section } from "@/components/Section";
 import { Container } from "@/components/Container";
 import { BubbleCard } from "@/components/BubbleCard";
 import { Heading, Text } from "@/components/Typography";
-import { ArrowUpRight, ArrowDown } from "lucide-react";
+import { ArrowUpRight, ArrowDown, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { projects, type Project } from "@/lib/profile";
@@ -168,7 +169,7 @@ function MobileCarousel() {
         {projects.map((project) => (
           <article
             key={project.title}
-            className="relative flex w-[82%] max-w-[340px] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-gradient-to-br from-white to-neutral-100 shadow-[0_12px_30px_rgba(0,0,0,0.12)] dark:from-neutral-900 dark:to-neutral-800 dark:shadow-[0_14px_34px_rgba(0,0,0,0.55)]"
+            className="relative flex w-[82%] max-w-[340px] shrink-0 snap-center flex-col overflow-hidden rounded-sm border border-black/10 dark:border-white/10 bg-gradient-to-br from-white to-neutral-100 shadow-[0_12px_30px_rgba(0,0,0,0.12)] dark:from-neutral-900 dark:to-neutral-800 dark:shadow-[0_14px_34px_rgba(0,0,0,0.55)]"
           >
             {/* aesthetic corner glow */}
             <div
@@ -266,7 +267,7 @@ export function Projects() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="w-full max-w-[320px] sm:max-w-[420px] lg:max-w-[480px] aspect-[4/3] rounded-2xl overflow-hidden shadow-xl lg:flex-shrink-0 relative border border-black/20 dark:border-white/20"
+          className="w-full max-w-[320px] sm:max-w-[420px] lg:max-w-[480px] aspect-[4/3] rounded-md overflow-hidden shadow-xl self-center lg:self-auto lg:flex-shrink-0 relative border border-black/20 dark:border-white/20 hidden lg:block"
         >
           <video
             ref={(el) => { if (el) el.playbackRate = 0.5; }}
@@ -431,17 +432,27 @@ export function Projects() {
           );
         })}
         
-        {/* Sticky Skip Button - Bottom Right */}
-        <div className="sticky bottom-12 z-50 flex justify-end w-full pointer-events-none">
-          <a
-            href="#credentials"
-            title="Skip to next section"
-            className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium tracking-wide text-background shadow-[0_4px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:bg-foreground/90"
-          >
-            Skip Projects <ArrowDown size={14} />
-          </a>
-        </div>
       </div>
+
+      {/* Sticky Skip Buttons - Responsive Bottom Center */}
+      {/* 
+      <div className="sticky bottom-6 md:bottom-12 z-50 hidden md:flex flex-row justify-center gap-3 md:gap-4 w-full pointer-events-none mt-12 md:mt-0">
+        <Link
+          href="/#skills"
+          title="Skip to previous section"
+          className="pointer-events-auto inline-flex items-center gap-1 md:gap-1.5 rounded-full bg-foreground px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-medium tracking-wide text-background shadow-[0_4px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:bg-foreground/90"
+        >
+          <ArrowUp size={12} className="md:w-3.5 md:h-3.5" /> Skip Up
+        </Link>
+        <Link
+          href="/#credentials"
+          title="Skip to next section"
+          className="pointer-events-auto inline-flex items-center gap-1 md:gap-1.5 rounded-full bg-foreground px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-medium tracking-wide text-background shadow-[0_4px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:bg-foreground/90"
+        >
+          Skip Down <ArrowDown size={12} className="md:w-3.5 md:h-3.5" />
+        </Link>
+      </div> 
+      */}
     </Section>
   );
 }

@@ -144,24 +144,24 @@ function getJourneyGraphic(title: string) {
 
 const JourneyCardPrecise = ({ step }: { step: (typeof journey)[number] }) => {
   return (
-    <div className="relative w-full max-w-[540px] bg-[#fcfcfc] dark:bg-[#0c0d10] border-2 border-black dark:border-white rounded-md p-8 lg:p-10 shadow-[6px_6px_0px_#18181b] dark:shadow-[6px_6px_0px_#d4d4d8] z-20 group hover:-translate-y-1 transition-transform duration-300">
+    <div className="relative w-full max-w-[540px] bg-[#fcfcfc] dark:bg-[#0c0d10] border-2 border-black dark:border-white rounded-md p-4 sm:p-6 md:p-8 lg:p-10 shadow-[4px_4px_0px_#18181b] md:shadow-[6px_6px_0px_#18181b] dark:shadow-[4px_4px_0px_#d4d4d8] dark:md:shadow-[6px_6px_0px_#d4d4d8] z-20 group hover:-translate-y-1 transition-transform duration-300">
       
       {/* Title & metadata */}
-      <p className="text-[10px] font-bold uppercase tracking-widest text-black/50 dark:font-mono dark:text-white/40 mb-3">
+      <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-black/50 dark:font-mono dark:text-white/40 mb-1 md:mb-3">
         {step.period}
       </p>
-      <h3 className="text-2xl font-black leading-tight text-black dark:text-white mb-2">
+      <h3 className="text-base sm:text-lg md:text-2xl font-black leading-tight text-black dark:text-white mb-1 md:mb-2">
         {step.title}
       </h3>
-      <p className="text-xs font-semibold uppercase tracking-[0.15em] text-black/40 dark:text-white/30 mb-6 pb-6 border-b border-black/10 dark:border-white/10">
+      <p className="text-[8px] md:text-xs font-semibold uppercase tracking-[0.15em] text-black/40 dark:text-white/30 mb-2 md:mb-6 pb-2 md:pb-6 border-b border-black/10 dark:border-white/10">
         {step.place}
       </p>
-      <p className="text-sm font-medium leading-relaxed text-black/70 dark:text-white/60 md:w-[75%]">
+      <p className="text-[10px] md:text-sm font-medium leading-relaxed text-black/70 dark:text-white/60 md:w-[75%] line-clamp-3 md:line-clamp-none">
         {step.description}
       </p>
 
       {/* Floating Graphics inside card */}
-      <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 pointer-events-none flex items-center justify-center">
+      <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-10 lg:right-10 pointer-events-none flex items-center justify-center scale-50 md:scale-100 origin-bottom-right">
         {getJourneyGraphic(step.title)}
       </div>
       
@@ -177,25 +177,25 @@ const JourneyCardPrecise = ({ step }: { step: (typeof journey)[number] }) => {
 
 const TimelineRow = ({ step, isRight }: { step: (typeof journey)[number], isRight: boolean }) => {
   return (
-    <div className="relative flex flex-col md:grid md:grid-cols-[1fr_80px_1fr] gap-6 md:gap-0 min-h-[280px]">
+    <div className="relative grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_80px_1fr] min-h-[140px] md:min-h-[280px]">
       
       {/* Central Spine SVG Segment */}
-      <div className="hidden md:flex col-start-2 md:row-start-1 relative justify-center">
+      <div className="flex col-start-2 row-start-1 relative justify-center">
         {/* Central Junction Node */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#fdfdfd] dark:bg-[#0c0d10] border-[2px] border-black/30 dark:border-white/30 rounded-full z-20 flex items-center justify-center shadow-sm">
-          <Cog className="w-5 h-5 text-black dark:text-white animate-spin" style={{ animationDuration: '4s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 md:w-8 md:h-8 bg-[#fdfdfd] dark:bg-[#0c0d10] border-[1.5px] md:border-[2px] border-black/30 dark:border-white/30 rounded-full z-20 flex items-center justify-center shadow-sm">
+          <Cog className="w-3 h-3 md:w-5 md:h-5 text-black dark:text-white animate-spin" style={{ animationDuration: '4s' }} />
         </div>
         
         {/* Branch off node label (Focus/Select detail) */}
         {step.title.includes("Pre-Medical") && (
-          <div className="absolute top-1/2 -translate-y-1/2 left-full ml-4 whitespace-nowrap text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40 flex items-center gap-1">
-            <BadgeCheck className="w-3 h-3" /> Focus/Select
+          <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2 md:ml-4 whitespace-nowrap text-[8px] md:text-[10px] font-bold uppercase tracking-widest text-black/40 dark:text-white/40 flex items-center gap-1">
+            <BadgeCheck className="w-2 h-2 md:w-3 md:h-3" /> <span className="hidden sm:inline">Focus/Select</span>
           </div>
         )}
 
         {/* Orthogonal Branch to the card */}
         <div className={cn(
-          "absolute top-1/2 -translate-y-1/2 h-[2px] bg-black/20 dark:bg-white/20",
+          "absolute top-1/2 -translate-y-1/2 h-[1px] md:h-[2px] bg-black/20 dark:bg-white/20",
           isRight ? "left-[50%] w-[50%]" : "right-[50%] w-[50%]"
         )} />
       </div>
@@ -205,7 +205,7 @@ const TimelineRow = ({ step, isRight }: { step: (typeof journey)[number], isRigh
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        className={cn("relative flex items-center w-full z-20 md:row-start-1", isRight ? "md:col-start-3" : "md:col-start-1 md:justify-end")}
+        className={cn("relative flex items-center w-full z-20 row-start-1", isRight ? "col-start-3" : "col-start-1 justify-end")}
       >
         <JourneyCardPrecise step={step} />
       </motion.div>

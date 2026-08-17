@@ -8,6 +8,14 @@ import { BubbleCard } from "@/components/BubbleCard";
 import { profile, socials } from "@/lib/profile";
 import { socialIcons } from "@/components/SocialIcons";
 
+function WhatsappIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
+
 /* ---------------------------------------------------------------------------
    Connect — the old Journey identity bento merged into Let's Connect.
 
@@ -30,24 +38,37 @@ const BUBBLES = [
   { size: 56, top: "82%", left: "92%", y: [0, -15, 0], x: [0, -10, 0], d: 4, delay: 0.5 },
 ];
 
-const HexCardPrecise = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+const HexCardPrecise = ({ children, className, inverted = false }: { children: React.ReactNode, className?: string, inverted?: boolean }) => {
+  const outerBorder = "bg-black dark:bg-white";
+  const bgMain = inverted ? "bg-gradient-to-br from-white via-zinc-100 to-zinc-300 dark:from-zinc-700 dark:via-zinc-900 dark:to-black" : "bg-[#fcfcfc] dark:bg-[#0c0d10]";
+  const innerBorder = "bg-black/20 dark:bg-white/20";
+  const honeycomb = "bg-black dark:bg-white";
+  const honeycombOpacity = "opacity-[0.03] dark:opacity-[0.05]";
+  const nodes = "border-black/40 dark:border-white/40";
+  const effects = inverted ? "" : "transition-transform duration-300 hover:-translate-y-1 [filter:drop-shadow(6px_6px_0_#18181b)] dark:[filter:drop-shadow(6px_6px_0_#d4d4d8)]";
+
+  const outerPadding = inverted ? "p-[0.5px]" : "p-[1px]";
+  const innerBorderPadding = inverted ? "p-0" : "p-[1px]";
+
   return (
-    <div className="h-full transition-transform duration-300 hover:-translate-y-1 [filter:drop-shadow(6px_6px_0_#18181b)] dark:[filter:drop-shadow(6px_6px_0_#d4d4d8)]">
-      <div className="relative bg-black dark:bg-white p-[1.5px] h-full" 
+    <div className={`h-full ${effects}`}>
+      <div className={`relative ${outerBorder} ${outerPadding} h-full`} 
            style={{ clipPath: 'polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px)' }}>
-      <div className="relative bg-[#fcfcfc] dark:bg-[#0c0d10] h-full w-full p-2" 
+      <div className={`relative ${bgMain} h-full w-full p-2`} 
            style={{ clipPath: 'polygon(23px 0, 100% 0, 100% calc(100% - 23px), calc(100% - 23px) 100%, 0 100%, 0 23px)' }}>
-        <div className="relative bg-black/20 dark:bg-white/20 p-[1px] h-full w-full" 
+        <div className={`relative ${innerBorder} ${innerBorderPadding} h-full w-full`} 
              style={{ clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)' }}>
-          <div className={`relative bg-[#fcfcfc] dark:bg-[#0c0d10] h-full w-full flex flex-col overflow-hidden ${className || ""}`} 
+          <div className={`relative ${bgMain} h-full w-full flex flex-col overflow-hidden ${className || ""}`} 
                style={{ clipPath: 'polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px)' }}>
             
             {/* Hexagon Honeycomb Background */}
-            <div className="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.05] bg-black dark:bg-white pointer-events-none" 
-                 style={{ 
-                   maskImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24.5' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM-0.01 9.25l13-7.5l13 7.5v-15l-13-7.5l-13 7.5v15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`, 
-                   WebkitMaskImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24.5' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM-0.01 9.25l13-7.5l13 7.5v-15l-13-7.5l-13 7.5v15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                 }} />
+            {!inverted && (
+              <div className={`absolute inset-0 z-0 ${honeycombOpacity} ${honeycomb} pointer-events-none`} 
+                   style={{ 
+                     maskImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24.5' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM-0.01 9.25l13-7.5l13 7.5v-15l-13-7.5l-13 7.5v15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`, 
+                     WebkitMaskImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='24.5' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='none' stroke='%23000' stroke-width='2'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM-0.01 9.25l13-7.5l13 7.5v-15l-13-7.5l-13 7.5v15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                   }} />
+            )}
             
             <div className="relative z-10 h-full flex flex-col">
               {children}
@@ -56,10 +77,10 @@ const HexCardPrecise = ({ children, className }: { children: React.ReactNode, cl
         </div>
       </div>
       {/* Inner Frame Cutout Nodes */}
-      <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full border border-black/40 dark:border-white/40 bg-transparent pointer-events-none" />
-      <div className="absolute top-2 right-6 w-1.5 h-1.5 rounded-full border border-black/40 dark:border-white/40 bg-transparent pointer-events-none" />
-      <div className="absolute bottom-2 left-6 w-1.5 h-1.5 rounded-full border border-black/40 dark:border-white/40 bg-transparent pointer-events-none" />
-      <div className="absolute bottom-2 right-6 w-1.5 h-1.5 rounded-full border border-black/40 dark:border-white/40 bg-transparent pointer-events-none" />
+      <div className={`absolute top-2 left-6 w-1.5 h-1.5 rounded-full border ${nodes} bg-transparent pointer-events-none`} />
+      <div className={`absolute top-2 right-6 w-1.5 h-1.5 rounded-full border ${nodes} bg-transparent pointer-events-none`} />
+      <div className={`absolute bottom-2 left-6 w-1.5 h-1.5 rounded-full border ${nodes} bg-transparent pointer-events-none`} />
+      <div className={`absolute bottom-2 right-6 w-1.5 h-1.5 rounded-full border ${nodes} bg-transparent pointer-events-none`} />
     </div>
     </div>
   );
@@ -167,14 +188,18 @@ export function Connect() {
             transition={{ delay: 0.2 }}
             className="h-full"
           >
-            <HexCardPrecise className="justify-center p-6 sm:p-8 md:p-12">
+            <HexCardPrecise className="justify-center p-6 pb-4 sm:p-8 sm:pb-6 md:p-12 md:pb-8 gap-6">
               <p className="relative z-10 text-lg font-medium leading-relaxed text-black/90 pointer-events-none dark:font-normal dark:text-white/60">
-                Hey, I&apos;m Hamza Ahmad — a final-year Computer Science student at
-                the University of Agriculture, Faisalabad, building at the
-                intersection of AI and modern web development. I like the
-                unglamorous parts: real backends, typed contracts, and agentic
-                workflows that still behave when the demo is over.
+                Hey, I&apos;m Hamza Ahmad ! I will be finding solution for your real Problems bringing ideas to reality utilizing the power of Agentic workflows and advance Technologies.
               </p>
+              <div className="mt-auto pt-4 w-full">
+                <HexCardPrecise inverted className="p-3 sm:p-4 justify-center">
+                  <p className="relative z-10 text-base font-medium leading-snug text-black/90 pointer-events-none dark:font-normal dark:text-white/70">
+                    {profile.lookingFor}. Whether you have a question, a project idea, or
+                    just want to say hi, my inbox is always open.
+                  </p>
+                </HexCardPrecise>
+              </div>
             </HexCardPrecise>
           </motion.div>
 
@@ -194,69 +219,55 @@ export function Connect() {
                 </span>
               </div>
 
-              <a
-                href={`tel:${profile.phoneHref}`}
-                className="relative z-30 flex items-center gap-3 transition-colors hover:text-black dark:hover:text-white"
-              >
-                <Phone size={16} className="shrink-0 text-black/50 dark:text-white/40" />
-                <span className="font-mono text-xs uppercase tracking-widest text-black/80 dark:text-white/50">
-                  {profile.phone}
-                </span>
-              </a>
-
-              <p className="relative z-10 border-t border-black/15 pt-5 text-sm font-medium leading-relaxed text-black/70 pointer-events-none dark:border-white/10 dark:font-normal dark:text-white/50">
+              <p className="relative z-10 text-sm font-medium leading-relaxed text-black/70 pointer-events-none dark:font-normal dark:text-white/50">
                 {profile.responseTime}.
               </p>
+
+              <div className="relative z-30 mt-4 pt-2 flex items-center justify-center gap-3 w-full">
+                {socials
+                  .filter((s) => s.icon !== "mail")
+                  .map((s) => {
+                    const Icon = socialIcons[s.icon];
+                    return (
+                      <a
+                        key={s.name}
+                        href={s.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        title={s.name}
+                        className="flex h-9 w-9 items-center justify-center rounded-full bg-black dark:bg-white text-white/70 dark:text-black/60 transition-all duration-300 hover:scale-110 hover:text-white dark:hover:text-black"
+                      >
+                        <Icon className="h-4 w-4" />
+                        <span className="sr-only">{s.name}</span>
+                      </a>
+                    );
+                  })}
+              </div>
+
+              <div className="mt-auto pt-4 w-full">
+                <HexCardPrecise inverted className="p-4 sm:p-5 flex flex-col justify-center gap-4">
+                  <a
+                    href={`mailto:${profile.email}`}
+                    className="relative z-30 flex items-center gap-3 transition-colors text-black/80 dark:text-white/60 hover:text-black dark:hover:text-white"
+                  >
+                    <Mail size={16} className="shrink-0" />
+                    <span className="text-sm font-medium truncate">{profile.email}</span>
+                  </a>
+
+                  <a
+                    href={`https://wa.me/${profile.phoneHref.replace('+', '')}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative z-30 flex items-center gap-3 transition-colors text-black/80 dark:text-white/60 hover:text-black dark:hover:text-white"
+                  >
+                    <WhatsappIcon className="h-4 w-4 shrink-0" />
+                    <span className="font-mono text-sm tracking-widest">{profile.phone}</span>
+                  </a>
+                </HexCardPrecise>
+              </div>
             </HexCardPrecise>
           </motion.div>
         </div>
-
-        {/* One CTA — the only place the address and socials appear */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.6 }}
-          className="mt-8 flex flex-col items-center justify-between gap-8 rounded-md border-2 border-black bg-[#fcfcfc] p-6 shadow-[6px_6px_0px_#18181b] dark:border-white dark:bg-[#0c0d10] dark:shadow-[6px_6px_0px_#d4d4d8] hover:-translate-y-1 transition-transform duration-300 sm:p-8 md:mt-10 md:p-12 lg:flex-row lg:gap-12"
-        >
-          <p className="max-w-xl text-center text-lg font-medium leading-relaxed text-black/90 dark:font-normal dark:text-white/60 lg:text-left">
-            {profile.lookingFor}. Whether you have a question, a project idea, or
-            just want to say hi, my inbox is always open.
-          </p>
-
-          <div className="flex w-full flex-col items-center gap-5 lg:w-auto lg:items-end">
-            {/* anchor, not <Button> — Button is a motion.button with no asChild,
-                so a link cannot be nested inside it */}
-            <a
-              href={`mailto:${profile.email}`}
-              className="flex w-full items-center justify-center gap-3 rounded-full bg-foreground px-6 py-4 text-sm text-background shadow-md transition-transform duration-300 hover:scale-105 sm:px-8 sm:text-base lg:w-auto"
-            >
-              <Mail size={20} className="shrink-0" />
-              <span className="truncate">{profile.email}</span>
-            </a>
-
-            <div className="flex items-center gap-3">
-              {socials
-                .filter((s) => s.icon !== "mail")
-                .map((s) => {
-                  const Icon = socialIcons[s.icon];
-                  return (
-                    <a
-                      key={s.name}
-                      href={s.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      title={s.name}
-                      className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-foreground/40 transition-[color,transform] duration-300 hover:scale-110 hover:text-foreground"
-                    >
-                      <Icon className="h-5 w-5" />
-                      <span className="sr-only">{s.name}</span>
-                    </a>
-                  );
-                })}
-            </div>
-          </div>
-        </motion.div>
       </Container>
     </Section>
   );

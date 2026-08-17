@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "./providers";
 import { CustomCursor } from "@/components/CustomCursor";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { Navigation } from "@/components/Navigation";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,12 +41,22 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <body className="min-h-screen bg-background text-foreground transition-colors duration-300 flex flex-col">
         <Providers>
           <CustomCursor />
+          <Navigation />
           <SmoothScroll>
-            {children}
+            <main className="flex-grow">
+              {children}
+            </main>
           </SmoothScroll>
+          <footer className="mt-auto border-t border-border py-8 text-center z-10 relative bg-background">
+            <p className="text-sm text-muted">
+              Designed &amp; Built with{" "}
+              <span className="text-foreground">intention</span>. &copy;{" "}
+              {new Date().getFullYear()}
+            </p>
+          </footer>
         </Providers>
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { cn } from "@/lib/utils";
 import { socials } from "@/lib/profile";
@@ -369,6 +370,7 @@ export function Hero() {
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLElement>(null);
   const isInView = useInView(containerRef, { margin: "200px" });
+  const router = useRouter();
 
   const enter = useCallback((id: string) => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
@@ -390,9 +392,6 @@ export function Hero() {
     play ? { delay: delayMs / 1000, duration: durMs / 1000, ease: EASE } : { duration: 0 };
 
   const activeNode = NODES.find((n) => n.id === activeId) ?? null;
-
-  const goTo = (sel: string) =>
-    document.querySelector(sel)?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <section
@@ -419,7 +418,7 @@ export function Hero() {
 
       {/* ---------------- portrait ---------------- */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-[clamp(24px,5vh,60px)] z-0 flex justify-center"
+        className="pointer-events-none absolute inset-x-0 bottom-[12vh] md:bottom-[clamp(24px,5vh,60px)] z-0 flex justify-center"
         initial={{ opacity: 0, y: 32 }}
         animate={{
           opacity: shown ? 1 : 0,
@@ -573,7 +572,7 @@ export function Hero() {
                 <MagneticButton>
                   {/* rounded-sm overrides Button's default rounded-full — the
                       theme reads sharp/schematic, not pill-shaped. */}
-                  <Button size="lg" className="rounded-sm" onClick={() => goTo("#projects")}>
+                  <Button size="lg" className="rounded-sm" onClick={() => router.push("/projects")}>
                     Explore Work
                   </Button>
                 </MagneticButton>
@@ -581,7 +580,7 @@ export function Hero() {
                   variant="ghost"
                   size="lg"
                   className="link-underline rounded-sm px-1 hover:bg-transparent"
-                  onClick={() => goTo("#contact")}
+                  onClick={() => router.push("/contact")}
                 >
                   Contact →
                 </Button>

@@ -6,7 +6,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Environment, Html, MeshDistortMaterial } from "@react-three/drei";
 import { useTheme } from "next-themes";
 import * as THREE from "three";
-import { Settings, Cog } from "lucide-react";
+import { Settings, Cog, Hexagon, BrainCircuit, Database, Cpu, GraduationCap } from "lucide-react";
 
 // Suppress the harmless THREE.Clock deprecation warning caused by @react-three/fiber internals
 // and harmless WebGL precision warnings on Windows/ANGLE
@@ -506,16 +506,30 @@ export function DecorativeNode({ type = "icosahedron" }: { type?: "icosahedron" 
 
   useEffect(() => { setMounted(true); }, []);
   const isDark = mounted ? resolvedTheme === "dark" : true;
+  const isMobile = mounted ? window.innerWidth < 768 : false;
+
+  if (isMobile) {
+    let Icon = Hexagon;
+    if (type === "brainTech") Icon = BrainCircuit;
+    if (type === "dataBlock") Icon = Database;
+    if (type === "gadget") Icon = Cpu;
+    if (type === "graduation") Icon = GraduationCap;
+    
+    return (
+      <div className="flex items-center justify-center w-full h-[100px] opacity-40 dark:opacity-30 pointer-events-none">
+        <Icon className="w-10 h-10 text-black dark:text-white" strokeWidth={1.5} />
+      </div>
+    );
+  }
 
   return (
-    <div ref={containerRef} className="w-full h-[250px] flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+    <div ref={containerRef} className="w-full h-[100px] md:h-[250px] flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-700 pointer-events-none">
       <Canvas 
-        frameloop={isInView ? "always" : "demand"}
+        frameloop={isMobile ? "demand" : (isInView ? "always" : "demand")}
         camera={{ position: [0, 0, 5.5], fov: 45 }}
         dpr={[1, 1.5]} // limit pixel ratio for performance
         gl={{ alpha: true, antialias: true }}
       >
-        <Environment preset="city" />
         <ambientLight intensity={isDark ? 0.8 : 0.6} />
         <directionalLight position={[10, 10, 10]} intensity={1} />
         <directionalLight position={[-10, -10, -10]} intensity={0.2} />

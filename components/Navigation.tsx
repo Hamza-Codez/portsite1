@@ -2,26 +2,23 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useLenis } from "lenis/react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "About", href: "#about" },
-  { name: "Process", href: "#process" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Credentials", href: "#credentials" },
-  { name: "Education", href: "#education" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  { name: "Education", href: "/education" },
+  { name: "Contact", href: "/#contact" },
 ];
 
-/* Desktop keeps five items for the top bar rhythm. Education replaced
-   Experience here — the journey timeline moved into that section. */
-const desktopItems = navItems.filter((i) =>
-  ["Home", "About", "Projects", "Education", "Contact"].includes(i.name)
-);
+/* Desktop keeps the text items for the top bar rhythm, but excludes Contact
+   so it's not repeated next to the primary action button. */
+const desktopItems = navItems.filter((i) => i.name !== "Contact");
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -46,16 +43,12 @@ function MoonIcon() {
 }
 
 export function Navigation() {
-  const [activeSection, setActiveSection] = React.useState("Home");
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const { scrollY, scrollYProgress } = useScroll();
-  /* Whole-page scroll fraction, springed, driving the rail fill inside the nav.
-     Ties the bar to the same progress-rail language as the Education timeline. */
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
-  const progressWidth = useTransform(progress, (v) => `${Math.min(1, Math.max(0, v)) * 100}%`);
+  const { scrollY } = useScroll();
 
   const lenis = useLenis();
   const { resolvedTheme, setTheme } = useTheme();
@@ -70,16 +63,6 @@ export function Navigation() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
-
-    // Active section — resolved against every section, not just the desktop five.
-    const scrollPosition = latest + window.innerHeight / 3;
-    for (let i = navItems.length - 1; i >= 0; i--) {
-      const section = document.querySelector(navItems[i].href) as HTMLElement | null;
-      if (section && section.offsetTop <= scrollPosition) {
-        setActiveSection(navItems[i].name);
-        break;
-      }
-    }
   });
 
   /* Lock scroll while the panel is open. Lenis owns scrolling, so stopping the
@@ -138,22 +121,7 @@ export function Navigation() {
     };
   }, [isOpen]);
 
-  const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setIsOpen(false);
-    const element = document.querySelector(href);
-    if (!element) return;
-    // Defer so the panel's scroll-lock cleanup runs before we move the page.
-    requestAnimationFrame(() => {
-      element.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth" });
-    });
-  };
-
   const toggleTheme = () => setTheme(resolvedTheme === "dark" ? "light" : "dark");
-
-  // Frame counter reads against ALL sections, not just the desktop five.
-  const activeIndex = Math.max(0, navItems.findIndex((i) => i.name === activeSection));
-  const total = String(navItems.length).padStart(2, "0");
 
   return (
     <>
@@ -180,29 +148,28 @@ export function Navigation() {
 
           {/* Brand */}
           <div className="flex items-center font-bold tracking-tight text-lg text-white dark:text-black px-4 whitespace-nowrap">
-            <span className="flex items-center gap-3 whitespace-nowrap">
+            <Link href="/" className="flex items-center gap-3 whitespace-nowrap" onClick={() => setIsOpen(false)}>
               <img src="/assets/logo.png" alt="HA Logo" className="w-8 h-8 object-contain dark:invert mix-blend-screen dark:mix-blend-multiply" />
               <span className="px-1">Hamza Ahmad</span>
-            </span>
+            </Link>
           </div>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1 text-white/70 dark:text-black/70 text-sm font-medium px-4">
             {desktopItems.map((item) => {
-              const on = activeSection === item.name;
+              const on = pathname === item.href;
               return (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
-                  onClick={(e) => scrollTo(e, item.href)}
-                  aria-current={on ? "true" : undefined}
+                  aria-current={on ? "page" : undefined}
                   className={cn(
                     "px-4 py-1.5 rounded-full transition-colors duration-300",
                     on ? "text-white bg-white/15 dark:text-black dark:bg-black/10" : "hover:text-white hover:bg-white/5 dark:hover:text-black dark:hover:bg-black/5"
                   )}
                 >
                   {item.name}
-                </a>
+                </Link>
               );
             })}
           </nav>
@@ -210,13 +177,12 @@ export function Navigation() {
           {/* Right Actions */}
           <div className="flex items-center gap-2 pr-1">
             {/* Primary Action Button */}
-            <a 
-              href="#contact" 
-              onClick={(e) => scrollTo(e, "#contact")}
+            <Link 
+              href={pathname === "/" ? "#contact" : "/#contact"} 
               className="hidden md:flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white px-4 py-1.5 rounded-full text-sm font-bold hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors shadow-sm"
             >
               Contact
-            </a>
+            </Link>
 
             {/* Theme Toggle */}
             {mounted && (
@@ -266,10 +232,8 @@ export function Navigation() {
           >
             <nav className="flex flex-col">
               {navItems.map((item, i) => (
-                <motion.a
+                <motion.div
                   key={item.name}
-                  href={item.href}
-                  onClick={(e) => scrollTo(e, item.href)}
                   initial={{ opacity: 0, y: prefersReduced ? 0 : 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -277,20 +241,26 @@ export function Navigation() {
                     delay: prefersReduced ? 0 : 0.04 + i * 0.035,
                     ease: EASE,
                   }}
-                  aria-current={activeSection === item.name ? "true" : undefined}
-                  className={cn(
-                    "group flex items-baseline gap-4 border-b border-border py-5 transition-colors",
-                    activeSection === item.name ? "text-foreground" : "text-foreground/50"
-                  )}
+                  className="flex"
                 >
-                  <span className="mono text-[0.68rem] tracking-[0.28em] text-muted">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-2xl font-medium tracking-tight">{item.name}</span>
-                  {activeSection === item.name && (
-                    <span className="ml-auto h-1.5 w-1.5 self-center rounded-full bg-foreground" />
-                  )}
-                </motion.a>
+                  <Link 
+                    href={pathname === "/" && item.href.startsWith("/#") ? item.href.substring(1) : item.href} 
+                    onClick={() => setIsOpen(false)}
+                    aria-current={pathname === item.href ? "page" : undefined}
+                    className={cn(
+                      "group flex items-baseline gap-4 border-b border-border py-5 transition-colors w-full",
+                      pathname === item.href ? "text-foreground" : "text-foreground/50"
+                    )}
+                  >
+                    <span className="mono text-[0.68rem] tracking-[0.28em] text-muted">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-2xl font-medium tracking-tight">{item.name}</span>
+                    {pathname === item.href && (
+                      <span className="ml-auto h-1.5 w-1.5 self-center rounded-full bg-foreground" />
+                    )}
+                  </Link>
+                </motion.div>
               ))}
             </nav>
           </motion.div>
