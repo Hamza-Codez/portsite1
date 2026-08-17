@@ -76,7 +76,7 @@ const BackgroundWaves = () => {
   );
 };
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, any> = {
   "01": Search,
   "02": Map,
   "03": Zap,
