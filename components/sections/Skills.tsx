@@ -7,17 +7,23 @@ import { Heading, Text } from "@/components/Typography";
 
 import { skillGroups as skills } from "@/lib/profile";
 
+const Screw = ({ className }: { className?: string }) => (
+  <div className={`absolute w-2.5 h-2.5 rounded-full bg-gradient-to-br from-zinc-100 to-zinc-300 dark:from-zinc-500 dark:to-zinc-700 shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.15),0_1px_2px_rgba(0,0,0,0.5)] border border-black/10 dark:border-black/50 flex items-center justify-center ${className || ''}`}>
+    <div className="w-[70%] h-[1px] bg-black/30 dark:bg-black/60" />
+  </div>
+);
+
 export function Skills() {
   return (
     <Section id="skills" className="py-16 md:py-24 relative overflow-hidden bg-background">
       {/* Background Images */}
       <div 
         className="absolute inset-0 z-0 hidden dark:block bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("/assets/skillsection/imblack.webp")' }}
+        style={{ backgroundImage: 'url("/assets/skillsection/imblack.png")' }}
       />
       <div 
         className="absolute inset-0 z-0 block dark:hidden bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("/assets/skillsection/imwhite.webp")' }}
+        style={{ backgroundImage: 'url("/assets/skillsection/imwhite.png")' }}
       />
 
       <Container className="max-w-6xl relative z-10">
@@ -46,8 +52,14 @@ export function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="rounded-2xl bg-white dark:bg-[#0B0C0E] dark:backdrop-blur-none border border-black/20 dark:border-white/20 p-6 sm:p-8 md:p-12 relative overflow-hidden group h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="rounded-md bg-white dark:bg-[#0B0C0E] dark:backdrop-blur-none border border-black/20 dark:border-white/20 p-6 sm:p-8 md:p-12 relative overflow-hidden group h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300"
             >
+              {/* Metallic Screws */}
+              <Screw className="top-4 left-4 rotate-12" />
+              <Screw className="top-4 right-4 rotate-45" />
+              <Screw className="bottom-4 left-4 -rotate-12" />
+              <Screw className="bottom-4 right-4 rotate-90" />
+
               {/* Radiating Orb (Top Right) - Dark Mode Only */}
               <div className="hidden dark:block absolute -top-32 -right-32 w-64 h-64 dark:bg-white/30 blur-[64px] pointer-events-none z-0" />
               

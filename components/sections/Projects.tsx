@@ -7,7 +7,7 @@ import { Section } from "@/components/Section";
 import { Container } from "@/components/Container";
 import { BubbleCard } from "@/components/BubbleCard";
 import { Heading, Text } from "@/components/Typography";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { projects, type Project } from "@/lib/profile";
@@ -15,6 +15,67 @@ import { projects, type Project } from "@/lib/profile";
 function host(url: string) {
   return new URL(url).host.replace(/^www\./, "");
 }
+
+const BackgroundTides = () => {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      
+        {/* Tide 1: Back, Lightest Shade */}
+        <motion.div
+          className="absolute inset-0 text-black/5 dark:text-white/5"
+        animate={{ y: ["-0.5%", "0.5%", "-0.5%"] }}
+        transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+      >
+        <motion.svg
+          viewBox="0 0 2000 1000"
+          className="w-[200vw] h-full absolute bottom-0"
+          preserveAspectRatio="none"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+        >
+          <path d="M 0,850 C 300,800 700,900 1000,850 C 1300,800 1700,900 2000,850 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+        </motion.svg>
+      </motion.div>
+
+      {/* Tide 2: Middle, Opposing Direction, Medium Shade */}
+      <motion.div
+        className="absolute inset-0 text-black/10 dark:text-white/10"
+        animate={{ y: ["0.5%", "-0.5%", "0.5%"] }}
+        transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+      >
+        <motion.svg
+          viewBox="0 0 2000 1000"
+          className="w-[200vw] h-full absolute bottom-0"
+          preserveAspectRatio="none"
+          animate={{ x: ["-50%", "0%"] }}
+          transition={{ repeat: Infinity, duration: 75, ease: "linear" }}
+        >
+          <path d="M 0,900 C 400,950 600,850 1000,900 C 1400,950 1600,850 2000,900 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+        </motion.svg>
+      </motion.div>
+
+      {/* Tide 3: Front, Darkest Shade */}
+      <motion.div
+        className="absolute inset-0 text-black/[0.15] dark:text-white/[0.15]"
+        animate={{ y: ["-0.2%", "0.2%", "-0.2%"] }}
+        transition={{ repeat: Infinity, duration: 30, ease: "easeInOut" }}
+      >
+        <motion.svg
+          viewBox="0 0 2000 1000"
+          className="w-[200vw] h-full absolute bottom-0"
+          preserveAspectRatio="none"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ repeat: Infinity, duration: 90, ease: "linear" }}
+        >
+          <path d="M 0,930 C 250,900 750,960 1000,930 C 1250,900 1750,960 2000,930 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+        </motion.svg>
+      </motion.div>
+
+      </div>
+    </div>
+  );
+};
 
 /* Shared browser-chrome preview, used by the mobile carousel card. */
 function PreviewWindow({ project }: { project: Project }) {
@@ -181,7 +242,9 @@ function MobileCarousel() {
 export function Projects() {
   return (
     <Section id="projects" className="py-16 md:py-24 relative bg-background">
-      <Container className="mb-24 md:mb-32 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12">
+      <BackgroundTides />
+      
+      <Container className="mb-24 md:mb-32 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -221,7 +284,7 @@ export function Projects() {
       <MobileCarousel />
 
       {/* Tablet & up: the sticky-stacking cards, unchanged. */}
-      <div className="hidden md:block md:px-12 w-full max-w-7xl mx-auto md:space-y-0 md:pb-32 relative">
+      <div className="hidden md:block md:px-12 w-full max-w-[76rem] mx-auto md:space-y-0 md:pb-32 relative">
         {projects.map((project, index) => {
           return (
             <div 
@@ -229,12 +292,12 @@ export function Projects() {
               /* pointer-events-none: each wrapper is 70vh but holds a 60vh
                  card, so its empty band overlays the card below and would
                  swallow that card's hover. The card opts back in. */
-              className="md:sticky md:top-32 md:h-[70vh] md:pt-[var(--stack-offset)] flex items-center justify-center w-full pointer-events-none"
-              style={{ "--stack-offset": `${index * 2}rem` } as React.CSSProperties}
+              className="md:sticky md:top-12 md:min-h-[85vh] md:pt-[var(--stack-offset)] flex items-center justify-center w-full pointer-events-none"
+              style={{ "--stack-offset": `${index * 0.5}rem` } as React.CSSProperties}
             >
               <BubbleCard
                 bubbleSize={150}
-                className="pointer-events-auto w-full h-full md:h-[60vh] bg-white dark:bg-[#0B0C0E] border border-black/20 dark:border-white/20 rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 lg:p-16 grid lg:grid-cols-2 gap-8 lg:gap-24 shadow-sm hover:shadow-md transition-shadow duration-300"
+                className="pointer-events-auto w-full h-auto md:min-h-[60vh] bg-white dark:bg-[#0B0C0E] border border-black/20 dark:border-white/20 rounded-md px-6 py-4 sm:px-8 sm:py-6 md:px-12 md:py-8 lg:px-16 lg:py-10 grid lg:grid-cols-2 gap-8 lg:gap-16 shadow-sm hover:shadow-md transition-shadow duration-300"
               >
 
                 {/* Square-dot halftone wave (lg+). Arcs from the left, curves
@@ -274,7 +337,7 @@ export function Projects() {
                     <Text className="text-foreground/80 max-w-prose">{project.description}</Text>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-foreground/10 flex flex-col md:flex-row gap-6 md:items-center justify-between lg:mt-12">
+                  <div className="mt-6 pt-6 border-t border-foreground/10 flex flex-col md:flex-row gap-6 md:items-center justify-between lg:mt-auto">
                     <Text className="text-xs uppercase tracking-widest text-foreground/40">
                       {project.tech}
                     </Text>
@@ -321,7 +384,7 @@ export function Projects() {
                      overflow-hidden clips it to the rounded corner — reading as
                      an overlap rather than a floating box. At lg it reverts to
                      the full-height panel in the right column. */
-                  className="group/pv relative z-30 order-first ml-auto -mt-6 -mr-6 w-[78%] flex flex-col overflow-hidden rounded-none rounded-bl-xl border border-foreground/15 bg-background/60 pointer-events-auto transition-colors duration-500 hover:border-foreground/40 sm:-mt-8 sm:-mr-8 md:-mt-12 md:-mr-12 md:w-[62%] lg:order-none lg:ml-0 lg:mt-0 lg:mr-0 lg:h-full lg:w-auto lg:rounded-xl"
+                  className="group/pv relative z-30 order-first ml-auto -mt-6 -mr-6 w-[78%] flex flex-col overflow-hidden rounded-none rounded-bl-md border border-foreground/15 bg-background/60 pointer-events-auto transition-colors duration-500 hover:border-foreground/40 sm:-mt-8 sm:-mr-8 md:-mt-12 md:-mr-12 md:w-[62%] lg:order-none lg:ml-0 lg:mt-0 lg:mr-0 lg:h-[90%] lg:w-auto lg:rounded-md"
                 >
                   {/* window chrome — solid foreground bar (black on light, white
                       on dark), contents in the inverse background colour */}
@@ -367,6 +430,17 @@ export function Projects() {
             </div>
           );
         })}
+        
+        {/* Sticky Skip Button - Bottom Right */}
+        <div className="sticky bottom-12 z-50 flex justify-end w-full pointer-events-none">
+          <a
+            href="#credentials"
+            title="Skip to next section"
+            className="pointer-events-auto inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-xs font-medium tracking-wide text-background shadow-[0_4px_20px_rgba(0,0,0,0.2)] dark:shadow-[0_4px_20px_rgba(255,255,255,0.1)] transition-all hover:scale-105 hover:bg-foreground/90"
+          >
+            Skip Projects <ArrowDown size={14} />
+          </a>
+        </div>
       </div>
     </Section>
   );

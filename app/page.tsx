@@ -2,6 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Process } from "@/components/sections/Process";
+import { TechStack } from "@/components/sections/TechStack";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
 import { Credentials } from "@/components/sections/Credentials";
@@ -18,6 +19,7 @@ export default function Home() {
         <About />
 
         <Process />
+        <TechStack />
 
         <Skills />
         <Projects />

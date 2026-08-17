@@ -159,122 +159,89 @@ export function Navigation() {
     <>
       <motion.header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-500 pt-[env(safe-area-inset-top)]",
-          isScrolled ? "py-4" : "py-6"
+          "fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 pt-[env(safe-area-inset-top)]",
         )}
       >
-        <div className="max-w-[82rem] mx-auto px-6 md:px-10 lg:px-16 flex justify-between items-center">
-          {/* Brand — same node-label surface as the hero (flat --node on light,
-              neutral gradient on dark) so the bar is a solid dark chip that
-              reads clearly over either theme. Terminal caret blinks alongside. */}
-          <div className={cn("flex items-center font-semibold tracking-tighter text-xl text-white px-4 py-1 rounded-sm", SURFACE)}>
-            Hamza<span className="text-white/45">&nbsp;Ahmad</span>
-            <motion.span
-              aria-hidden
-              className="ml-1 inline-block h-3.5 w-[2px] bg-white/70 align-middle"
-              animate={prefersReduced ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
-              transition={
-                prefersReduced
-                  ? undefined
-                  : { duration: 1.1, repeat: Infinity, times: [0, 0.5, 0.5, 1], ease: "linear" }
-              }
-            />
+        <div 
+          className={cn(
+            "relative flex items-center justify-between gap-4 px-4 py-1.5 transition-all duration-500",
+            "bg-black dark:bg-white shadow-2xl rounded-b-[24px]",
+            isScrolled ? "pb-1.5" : "pb-2.5",
+            "w-[calc(100vw-2rem)] md:w-auto"
+          )}
+        >
+          {/* Inverse Corners for sticky top connection */}
+          <svg className="absolute top-0 -left-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
+            <path d="M 0 0 L 24 0 L 24 24 A 24 24 0 0 0 0 0 Z" />
+          </svg>
+          <svg className="absolute top-0 -right-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
+            <path d="M 0 0 L 24 0 A 24 24 0 0 0 0 24 L 0 0 Z" />
+          </svg>
+
+          {/* Brand */}
+          <div className="flex items-center font-bold tracking-tight text-lg text-white dark:text-black px-4 whitespace-nowrap">
+            <span className="flex items-center gap-3 whitespace-nowrap">
+              <img src="/assets/logo.png" alt="HA Logo" className="w-8 h-8 object-contain dark:invert mix-blend-screen dark:mix-blend-multiply" />
+              <span className="px-1">Hamza Ahmad</span>
+            </span>
           </div>
 
-          {/* Desktop — a schematic bus: mono node labels on a rail that fills
-              with page scroll, with a live NN/08 frame counter. Not the usual
-              text-links-with-a-sliding-pill. */}
-          <nav className={cn("hidden lg:flex items-center gap-4 text-white pl-4 pr-2 py-1 rounded-sm", SURFACE)}>
-            {/* frame counter */}
-            <span className="mono text-[11px] tabular-nums tracking-[0.16em] text-white/45">
-              <span className="text-white/85">{String(activeIndex + 1).padStart(2, "0")}</span>
-              /{total}
-            </span>
-
-            <span aria-hidden className="h-4 w-px bg-white/15" />
-
-            {/* node labels on the fill rail */}
-            <div className="relative flex items-center pb-1.5">
-              {desktopItems.map((item) => {
-                const on = activeSection === item.name;
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    onClick={(e) => scrollTo(e, item.href)}
-                    aria-current={on ? "true" : undefined}
-                    className="group relative flex items-center gap-2 px-3.5 py-1.5"
-                  >
-                    <span
-                      className={cn(
-                        "h-1.5 w-1.5 shrink-0 rounded-full transition-all duration-300",
-                        on
-                          ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.75)]"
-                          : "bg-white/30 group-hover:bg-white/70"
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "mono text-[11px] uppercase tracking-[0.16em] transition-colors duration-300",
-                        on ? "text-white" : "text-white/55 group-hover:text-white/90"
-                      )}
-                    >
-                      {item.name}
-                    </span>
-                  </a>
-                );
-              })}
-
-              {/* the rail + its scroll-progress fill */}
-              <span aria-hidden className="pointer-events-none absolute inset-x-3.5 bottom-0 h-px bg-white/15" />
-              <motion.span
-                aria-hidden
-                style={{ width: progressWidth }}
-                className="pointer-events-none absolute bottom-0 left-3.5 h-px bg-white"
-              />
-            </div>
-
-            <span aria-hidden className="h-4 w-px bg-white/15" />
-
-            {mounted && (
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-sm hover:bg-white/10 transition-colors text-white/70 hover:text-white flex items-center justify-center"
-                aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
-              >
-                {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
-              </button>
-            )}
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1 text-white/70 dark:text-black/70 text-sm font-medium px-4">
+            {desktopItems.map((item) => {
+              const on = activeSection === item.name;
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => scrollTo(e, item.href)}
+                  aria-current={on ? "true" : undefined}
+                  className={cn(
+                    "px-4 py-1.5 rounded-full transition-colors duration-300",
+                    on ? "text-white bg-white/15 dark:text-black dark:bg-black/10" : "hover:text-white hover:bg-white/5 dark:hover:text-black dark:hover:bg-black/5"
+                  )}
+                >
+                  {item.name}
+                </a>
+              );
+            })}
           </nav>
 
-          {/* Mobile controls — 44px minimum touch targets. */}
-          <div className={cn("lg:hidden flex items-center gap-1 text-white px-2 py-1 rounded-sm", SURFACE)}>
+          {/* Right Actions */}
+          <div className="flex items-center gap-2 pr-1">
+            {/* Primary Action Button */}
+            <a 
+              href="#contact" 
+              onClick={(e) => scrollTo(e, "#contact")}
+              className="hidden md:flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white px-4 py-1.5 rounded-full text-sm font-bold hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors shadow-sm"
+            >
+              Contact
+            </a>
+
+            {/* Theme Toggle */}
             {mounted && (
               <button
                 onClick={toggleTheme}
-                className="h-10 w-10 flex items-center justify-center rounded-sm text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                aria-label={`Switch to ${resolvedTheme === "dark" ? "light" : "dark"} theme`}
+                className="w-8 h-8 rounded-full hover:bg-white/15 dark:hover:bg-black/10 transition-colors text-white dark:text-black flex items-center justify-center"
+                aria-label="Toggle theme"
               >
                 {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
               </button>
             )}
+
+            {/* Mobile Menu Toggle */}
             <button
               ref={triggerRef}
               onClick={() => setIsOpen((v) => !v)}
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label={isOpen ? "Close menu" : "Open menu"}
-              className="h-10 w-10 flex flex-col items-center justify-center gap-[5px] rounded-sm text-white hover:bg-white/10 transition-colors"
+              className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-[4px] rounded-full text-white dark:text-black hover:bg-white/15 dark:hover:bg-black/10 transition-colors"
             >
               <motion.span
                 animate={isOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: prefersReduced ? 0 : 0.3, ease: EASE }}
-                className="block h-[1.5px] w-5 bg-current origin-center"
+                className="block h-[1.5px] w-4 bg-current origin-center"
               />
               <motion.span
                 animate={isOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }}
-                transition={{ duration: prefersReduced ? 0 : 0.3, ease: EASE }}
-                className="block h-[1.5px] w-5 bg-current origin-center"
+                className="block h-[1.5px] w-4 bg-current origin-center"
               />
             </button>
           </div>

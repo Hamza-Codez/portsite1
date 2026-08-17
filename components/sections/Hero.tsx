@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
@@ -367,6 +367,8 @@ export function Hero() {
   const parallax = useParallax(mode === "play");
   const [activeId, setActiveId] = useState<string | null>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const containerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(containerRef, { margin: "200px" });
 
   const enter = useCallback((id: string) => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
@@ -394,6 +396,7 @@ export function Hero() {
 
   return (
     <section
+      ref={containerRef}
       id="home"
       className="relative isolate h-[100dvh] w-full overflow-hidden bg-[var(--bg-0)]"
     >
@@ -478,29 +481,31 @@ export function Hero() {
           Positioned in the open gaps, clear of his face and the text glyphs. */}
       {/* md+ only: the percentage positions are tuned for a wide viewport, so
           on a phone they land on the headline, the subcopy and his face. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden md:block">
-        {PRISMS.map((p, i) => (
-          <motion.div
-            key={i}
-            /* Light: black-and-slate glass — slate light-face, near-black
-               shadow-face, brighter slate ridge, with a soft dark halo for
-               depth. Dark: glowing white, screen-blended. */
-            className="absolute backdrop-blur-[2px] bg-[linear-gradient(110deg,rgba(71,85,105,0.92)_0_47%,rgba(100,116,139,0.98)_47%_53%,rgba(15,23,42,0.95)_53%_100%)] drop-shadow-[0_1px_10px_rgba(15,23,42,0.4)] dark:bg-[linear-gradient(110deg,rgba(255,255,255,0.5)_0_47%,rgba(255,255,255,0.95)_47%_53%,rgba(255,255,255,0.14)_53%_100%)] dark:drop-shadow-[0_0_16px_rgba(255,255,255,0.7)] dark:mix-blend-screen"
-            style={{ width: p.size, height: p.size, top: p.top, left: p.left, clipPath: TRI }}
-            initial={{ opacity: 0, rotate: p.rot }}
-            animate={{
-              opacity: shown ? 0.9 : 0,
-              rotate: reduced ? p.rot : [p.rot, p.rot + 6, p.rot],
-              y: reduced ? 0 : [0, -12, 0],
-            }}
-            transition={
-              reduced
-                ? { duration: 0 }
-                : { duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.delay }
-            }
-          />
-        ))}
-      </div>
+      {isInView && (
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-0 hidden md:block">
+          {PRISMS.map((p, i) => (
+            <motion.div
+              key={i}
+              /* Light: black-and-slate glass — slate light-face, near-black
+                 shadow-face, brighter slate ridge, with a soft dark halo for
+                 depth. Dark: glowing white, screen-blended. */
+              className="absolute backdrop-blur-[2px] bg-[linear-gradient(110deg,rgba(71,85,105,0.92)_0_47%,rgba(100,116,139,0.98)_47%_53%,rgba(15,23,42,0.95)_53%_100%)] drop-shadow-[0_1px_10px_rgba(15,23,42,0.4)] dark:bg-[linear-gradient(110deg,rgba(255,255,255,0.5)_0_47%,rgba(255,255,255,0.95)_47%_53%,rgba(255,255,255,0.14)_53%_100%)] dark:drop-shadow-[0_0_16px_rgba(255,255,255,0.7)] dark:mix-blend-screen"
+              style={{ width: p.size, height: p.size, top: p.top, left: p.left, clipPath: TRI }}
+              initial={{ opacity: 0, rotate: p.rot }}
+              animate={{
+                opacity: shown ? 0.9 : 0,
+                rotate: reduced ? p.rot : [p.rot, p.rot + 6, p.rot],
+                y: reduced ? 0 : [0, -12, 0],
+              }}
+              transition={
+                reduced
+                  ? { duration: 0 }
+                  : { duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.delay }
+              }
+            />
+          ))}
+        </div>
+      )}
 
       {/* ---------------- content ----------------
           Same box as <Container> and the nav (max-w-[82rem] + px-6/10/16) so the

@@ -1,30 +1,87 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Section } from "@/components/Section";
 import { Container } from "@/components/Container";
 import { Heading, Text } from "@/components/Typography";
+import { Search, Map, Zap, RefreshCw, Send } from "lucide-react";
 
 import { processSteps as steps } from "@/lib/profile";
 
 // --- 1. Background Waves ---
 const BackgroundWaves = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { margin: "200px" });
+
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-[0.04] dark:opacity-[0.06]">
-      <motion.svg
-        viewBox="0 0 2000 1000"
-        className="w-[200vw] h-full object-cover"
-        preserveAspectRatio="none"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ repeat: Infinity, duration: 45, ease: "linear" }}
-      >
-        <path d="M 0,300 C 250,100 250,500 500,300 C 750,100 750,500 1000,300 C 1250,100 1250,500 1500,300 C 1750,100 1750,500 2000,300" stroke="currentColor" strokeWidth="2" fill="none" />
-        <path d="M 0,500 C 500,100 500,900 1000,500 C 1500,100 1500,900 2000,500" stroke="currentColor" strokeWidth="1" fill="none" />
-        <path d="M 0,700 C 250,900 250,500 500,700 C 750,900 750,500 1000,700 C 1250,900 1250,500 1500,700 C 1750,900 1750,500 2000,700" stroke="currentColor" strokeWidth="3" fill="none" strokeDasharray="10 20" />
-      </motion.svg>
+    <div ref={ref} className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      
+      {isInView && (
+        <>
+          {/* Wave 1: Back, Tallest, Lightest Shade */}
+          <motion.div
+            className="absolute inset-0 text-black/5 dark:text-white/5"
+            animate={{ y: ["-1%", "1%", "-1%"] }}
+            transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }}
+          >
+            <motion.svg
+              viewBox="0 0 2000 1000"
+              className="w-[200vw] h-full object-cover absolute bottom-0"
+              preserveAspectRatio="none"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+            >
+              <path d="M 0,400 C 300,200 700,600 1000,400 C 1300,200 1700,600 2000,400 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+            </motion.svg>
+          </motion.div>
+
+          {/* Wave 2: Middle, Opposing Direction, Medium Shade */}
+          <motion.div
+            className="absolute inset-0 text-black/10 dark:text-white/10"
+            animate={{ y: ["1%", "-1%", "1%"] }}
+            transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
+          >
+            <motion.svg
+              viewBox="0 0 2000 1000"
+              className="w-[200vw] h-full object-cover absolute bottom-0"
+              preserveAspectRatio="none"
+              animate={{ x: ["-50%", "0%"] }}
+              transition={{ repeat: Infinity, duration: 75, ease: "linear" }}
+            >
+              <path d="M 0,600 C 400,850 600,350 1000,600 C 1400,850 1600,350 2000,600 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+            </motion.svg>
+          </motion.div>
+
+          {/* Wave 3: Front, Lowest, Darkest Shade */}
+          <motion.div
+            className="absolute inset-0 text-black/[0.15] dark:text-white/[0.15]"
+            animate={{ y: ["-0.5%", "0.5%", "-0.5%"] }}
+            transition={{ repeat: Infinity, duration: 30, ease: "easeInOut" }}
+          >
+            <motion.svg
+              viewBox="0 0 2000 1000"
+              className="w-[200vw] h-full object-cover absolute bottom-0"
+              preserveAspectRatio="none"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 90, ease: "linear" }}
+            >
+              <path d="M 0,750 C 250,600 750,900 1000,750 C 1250,600 1750,900 2000,750 L 2000,1000 L 0,1000 Z" fill="currentColor" />
+            </motion.svg>
+          </motion.div>
+        </>
+      )}
+
     </div>
   );
+};
+
+const iconMap: Record<string, React.ElementType> = {
+  "01": Search,
+  "02": Map,
+  "03": Zap,
+  "04": RefreshCw,
+  "05": Send
 };
 
 // --- 2. Hover Card with Bubble Inversion ---
@@ -47,6 +104,8 @@ const HoverCard = ({ s, i }: { s: (typeof steps)[number]; i: number }) => {
     mouseY.set(e.clientY - top);
   };
 
+  const Icon = iconMap[s.n];
+
   return (
     <motion.div
       ref={ref}
@@ -57,10 +116,15 @@ const HoverCard = ({ s, i }: { s: (typeof steps)[number]; i: number }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: i * 0.1 }}
-      className="rounded-2xl p-6 sm:p-8 flex flex-col justify-between h-full min-h-[280px] sm:min-h-[300px] relative overflow-hidden group cursor-default border-[0.1px]  border-black/70 dark:border-white/50 bg-white dark:bg-foreground/[0.01] dark:backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
+      className="rounded-md p-6 sm:p-8 flex flex-col justify-between h-full min-h-[280px] sm:min-h-[300px] relative overflow-hidden group cursor-default border-[0.1px] border-black/70 dark:border-white/50 bg-white dark:bg-foreground/[0.01] dark:backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-none"
     >
       {/* Background Hover Dimming */}
       <div className="absolute inset-0 bg-black/[0.02] dark:bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+      {/* Big Shadow Icon in Top Right */}
+      {Icon && (
+        <Icon className="absolute top-6 right-6 w-32 h-32 text-black/5 dark:text-white/5 z-0 group-hover:scale-110 group-hover:rotate-12 transition-all duration-700 pointer-events-none" />
+      )}
       
       {/* 
         The Magic Bubble (mix-blend-difference) 
@@ -100,10 +164,12 @@ const HoverCard = ({ s, i }: { s: (typeof steps)[number]; i: number }) => {
         </Text>
       </div>
 
-      <div className="relative z-10 pointer-events-none mt-8 border-t border-black/15 dark:border-white/10 pt-4">
-        <p className="font-mono text-[11px] tracking-[0.14em] uppercase text-black/60 dark:text-white/40">
-          {s.tools}
-        </p>
+      <div className="relative z-10 flex flex-wrap gap-2 mt-8 border-t border-black/15 dark:border-white/10 pt-4 pointer-events-none">
+        {s.tools.split(" · ").map(tool => (
+          <span key={tool} className="inline-flex items-center rounded-sm bg-black dark:bg-white px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-white dark:text-black font-semibold">
+            {tool}
+          </span>
+        ))}
       </div>
     </motion.div>
   );

@@ -17,7 +17,7 @@ export const profile = {
   name: "Hamza Ahmad",
   handle: "Hamza-Codez",
   title: "Software Engineer & Architect",
-  email: "ha01257890@gmail.com",
+  email: "dev.hamzaahmad@gmail.com",
   phone: "+92 305 877 7185",
   phoneHref: "+923058777185",
   location: "Faisalabad, Pakistan",
@@ -141,54 +141,15 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "StockEase Dashboard",
-    category: "Full-Stack",
+    title: "FrenzyFlix",
+    category: "Academic",
     description:
-      "Real-time inventory management with a Firebase backend and data visualisation for stock movement.",
-    tech: "React, Firebase, Tailwind",
-    live: "https://stockease-app.vercel.app/",
-    source: "https://github.com/Hamza-Codez/Stockease-App",
-    preview: "/assets/project/previews/stockease.webp",
-  },
-  {
-    title: "Climate Tracker",
-    category: "Full-Stack",
-    description:
-      "Hackathon project tracking global climate metrics, with a FastAPI service behind a React front end.",
-    tech: "React, FastAPI, MongoDB",
-    live: "https://automation-climate-5h7y.vercel.app/",
-    source: "https://github.com/Hamza-Codez/automationClimate",
-    preview: "/assets/project/previews/climate-tracker.webp",
-  },
-  {
-    title: "Global Mart",
-    category: "Frontend",
-    description:
-      "E-commerce platform with complex API integrations and an optimised product listing experience.",
-    tech: "Next.js, API, Tailwind",
-    live: "https://globalmarttsix-nexusdigital.vercel.app/",
-    source: "https://github.com/Hamza-Codez/Nexus-Digital/tree/main/T6/Gmart",
-    preview: "/assets/project/previews/global-mart.webp",
-  },
-  {
-    title: "Personal Portfolio",
-    category: "Frontend",
-    description:
-      "Portfolio site built with React and TypeScript, focused on performance and considered UX.",
-    tech: "React, TypeScript, Tailwind, Vite",
-    live: "https://resume-portfolio-two-alpha.vercel.app",
-    source: "https://github.com/Hamza-Codez/REsumePort",
-    preview: "/assets/project/previews/portfolio.webp",
-  },
-  {
-    title: "Essentify+",
-    category: "Frontend",
-    description:
-      "Feature-rich todo application with local-storage persistence and no backend dependency.",
-    tech: "JavaScript, CSS3, Local Storage",
-    live: "https://essentiafy-to-do-hpr4.vercel.app/",
-    source: "https://github.com/Hamza-Codez/Essentiafy-To-Do",
-    preview: "/assets/project/previews/essentify.webp",
+      "A movie-browsing front end with an auto-rotating hero carousel, built in plain HTML, CSS, and JavaScript.",
+    tech: "HTML, CSS, JavaScript",
+    // info.md §8 lists this as having no live deployment — it does.
+    live: "https://frenzy-umbrella.vercel.app/index.html",
+    source: "https://github.com/Hamza-Codez/Frenzy-Flix",
+    preview: "/assets/project/previews/frenzyflix.webp",
   },
   {
     title: "University Farming — FARM-UAF",
@@ -202,15 +163,94 @@ export const projects: Project[] = [
     preview: "/assets/project/previews/farm-uaf.webp",
   },
   {
-    title: "FrenzyFlix",
-    category: "Academic",
+    title: "Essentify+",
+    category: "Frontend",
     description:
-      "A movie-browsing front end with an auto-rotating hero carousel, built in plain HTML, CSS, and JavaScript.",
-    tech: "HTML, CSS, JavaScript",
-    // info.md §8 lists this as having no live deployment — it does.
-    live: "https://frenzy-umbrella.vercel.app/index.html",
-    source: "https://github.com/Hamza-Codez/Frenzy-Flix",
-    preview: "/assets/project/previews/frenzyflix.webp",
+      "Feature-rich todo application with local-storage persistence and no backend dependency.",
+    tech: "JavaScript, CSS3, Local Storage",
+    live: "https://essentiafy-to-do-hpr4.vercel.app/",
+    source: "https://github.com/Hamza-Codez/Essentiafy-To-Do",
+    preview: "/assets/project/previews/essentify.webp",
+  },
+  {
+    title: "Personal Portfolio",
+    category: "Frontend",
+    description:
+      "Portfolio site built with React and TypeScript, focused on performance and considered UX.",
+    tech: "React, TypeScript, Tailwind, Vite",
+    live: "https://resume-portfolio-two-alpha.vercel.app",
+    source: "https://github.com/Hamza-Codez/REsumePort",
+    preview: "/assets/project/previews/portfolio.webp",
+  },
+  {
+    title: "Global Mart",
+    category: "Frontend",
+    description:
+      "E-commerce platform with complex API integrations and an optimised product listing experience.",
+    tech: "Next.js, API, Tailwind",
+    live: "https://globalmarttsix-nexusdigital.vercel.app/",
+    source: "https://github.com/Hamza-Codez/Nexus-Digital/tree/main/T6/Gmart",
+    preview: "/assets/project/previews/global-mart.webp",
+  },
+  {
+    title: "Climate Tracker",
+    category: "Full-Stack",
+    description:
+      "Hackathon project tracking global climate metrics, with a FastAPI service behind a React front end.",
+    tech: "React, FastAPI, MongoDB",
+    live: "https://automation-climate-5h7y.vercel.app/",
+    source: "https://github.com/Hamza-Codez/automationClimate",
+    preview: "/assets/project/previews/climate-tracker.webp",
+  },
+  {
+    title: "StockEase Dashboard",
+    category: "Full-Stack",
+    description:
+      "Real-time inventory management with a Firebase backend and data visualisation for stock movement.",
+    tech: "React, Firebase, Tailwind",
+    live: "https://stockease-app.vercel.app/",
+    source: "https://github.com/Hamza-Codez/Stockease-App",
+    preview: "/assets/project/previews/stockease.webp",
+  },
+  {
+    title: "Flavourz Restaurant & Café",
+    category: "Frontend",
+    description:
+      "A luxury dining website for a restaurant in Kamalia, featuring a full menu, deals, and reservation system.",
+    tech: "Next.js, Framer Motion, Tailwind",
+    live: "https://flavourz.vercel.app/",
+    source: "https://github.com/Hamza-Codez",
+    preview: "/assets/project/previews/flavourz.png",
+  },
+  {
+    title: "Joycart",
+    category: "Frontend",
+    description:
+      "A curated modern e-commerce storefront for clothing, tech, and luxuries with a focus on clean UI.",
+    tech: "Next.js, React, Tailwind",
+    live: "https://ecomsite-sand.vercel.app/",
+    source: "https://github.com/Hamza-Codez",
+    preview: "/assets/project/previews/joycart.png",
+  },
+  {
+    title: "Japan Business Directory",
+    category: "Full-Stack",
+    description:
+      "A comprehensive business directory platform featuring search, categories, and location-based discovery.",
+    tech: "Next.js, Tailwind, Geoapify",
+    live: "https://business-diectory.vercel.app/",
+    source: "https://github.com/Hamza-Codez",
+    preview: "/assets/project/previews/directory.png",
+  },
+  {
+    title: "Aperture",
+    category: "Full-Stack",
+    description:
+      "An AI-powered digital employee for storefronts that reads real orders and written policies to handle customer support.",
+    tech: "Next.js, AI Agents, Tailwind",
+    live: "https://customer-support-agent-hazel.vercel.app/",
+    source: "https://github.com/Hamza-Codez",
+    preview: "/assets/project/previews/aperture.png",
   },
 ];
 
@@ -221,6 +261,7 @@ export type Credential = {
   date: string;
   skills: string;
   description: string;
+  badge?: string;
 };
 
 export const credentials: Credential[] = [
@@ -231,6 +272,7 @@ export const credentials: Credential[] = [
     skills: "GenAI · Prompting · Workflow",
     description:
       "Building AI-powered applications with advanced prompt engineering.",
+    badge: "/assets/badges/uetian.png",
   },
   {
     title: "Google Prompting Essentials",
@@ -239,6 +281,7 @@ export const credentials: Credential[] = [
     skills: "AI Agents · Analysis",
     description:
       "Mastering AI role-playing agents and sophisticated data analysis frameworks.",
+    badge: "/assets/badges/google-prompting-essentials.1-removebg-preview.png",
   },
   {
     title: "Google UX Design Specialization",
@@ -247,6 +290,7 @@ export const credentials: Credential[] = [
     skills: "Research · Wireframing",
     description:
       "End-to-end design process from user empathy to testable prototypes.",
+    badge: "/assets/badges/google-ux-design-professional-certificate-v2.png",
   },
   {
     title: "Google Project Management",
@@ -254,6 +298,7 @@ export const credentials: Credential[] = [
     date: "Oct 2025",
     skills: "Agile · Scrum · Lean",
     description: "Foundations of Agile roles, scrum events, and project artifacts.",
+    badge: "/assets/badges/google-project-management-professional-certificate-.1.png",
   },
   {
     title: "Google Business Intelligence",
@@ -262,6 +307,7 @@ export const credentials: Credential[] = [
     skills: "ETL · Tableau · SQL",
     description:
       "Data warehousing and business-driven decision making strategies.",
+    badge: "/assets/badges/google-business-intelligence-certificate.png",
   },
   {
     title: "Google IT Support",
@@ -270,6 +316,25 @@ export const credentials: Credential[] = [
     skills: "Linux · DNS · CLI",
     description:
       "Networking, system administration, and technical troubleshooting.",
+    badge: "/assets/badges/google-it-support-professional-certificate-v-3-removebg-preview.png",
+  },
+  {
+    title: "Google AI Essentials",
+    issuer: "Google",
+    date: "Oct 2025",
+    skills: "AI · Productivity",
+    description:
+      "Foundational AI concepts and applying AI tools to increase productivity.",
+    badge: "/assets/badges/google-ai-essentials-v1.png",
+  },
+  {
+    title: "Google Agile Project Management",
+    issuer: "Google",
+    date: "Oct 2025",
+    skills: "Agile · Scrum · Jira",
+    description:
+      "Agile methodology, Scrum framework, and practical application with Jira.",
+    badge: "/assets/badges/google-agile-essentials-v1.png",
   },
   {
     title: "Full Stack Web Development",
@@ -278,6 +343,7 @@ export const credentials: Credential[] = [
     skills: "JS · PHP · MySQL",
     description:
       "Comprehensive training in modern front-end and back-end architectures.",
+    badge: "/assets/badges/punjab.png",
   },
   {
     title: "Meta Hacker Cup 2025",
@@ -286,6 +352,7 @@ export const credentials: Credential[] = [
     skills: "Algorithms · CP",
     description:
       "Participation in the global competitive programming challenge.",
+    badge: "/assets/badges/meta.png",
   },
   {
     title: "Tech Entrepreneurship",
@@ -294,6 +361,7 @@ export const credentials: Credential[] = [
     skills: "Innovation · Pitching",
     description:
       "Hackathon participation at the University of Agriculture, Faisalabad.",
+    badge: "/assets/badges/computing-society.png",
   },
 ];
 
@@ -345,6 +413,9 @@ export const coursework = [
   "Database Systems",
   "Software Engineering",
   "Computer Networks",
+  "HCI",
+  "Artificial Intelligence",
+  "Cloud Computing",
 ];
 
 /* --- Journey: the real chronology, replacing invented employment ---------- */

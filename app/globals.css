@@ -26,26 +26,7 @@
   --accent-foreground: #ffffff;
   
   --ease-out: cubic-bezier(.16,1,.3,1);
-  --ease-io: cubic-bezier(.65,0,.35,1);
-
-  /* The Mindset Variables (Light) */
-  --mindset-bg: #F4F5F7;
-  --mindset-surface: #ECEEF1;
-  --mindset-ink: #0E1116;
-  --mindset-ghost: #A6ADB8;
-  --mindset-trace: #C2C7CF;
-  --mindset-core: #0E1116;
-  --mindset-hair: rgba(14,17,22,0.08);
-
-  /* VS Code Syntax Colors (Light) */
-  --vsc-kw: #000000;
-  --vsc-kw2: #000000;
-  --vsc-fn: #000000;
-  --vsc-cl: #000000;
-  --vsc-vr: #000000;
-  --vsc-op: #000000;
-  --vsc-st: #000000;
-}
+  --ease-io: cubic-bezier(.65,0,.35,1);}
 
 .dark {
   /* Dark Mode Variables ("black & white") */
@@ -64,26 +45,7 @@
   --surface-hover: rgba(255, 255, 255, 0.08);
   --border: rgba(255, 255, 255, 0.08);
   --accent: #ffffff;
-  --accent-foreground: #000000;
-
-  /* The Mindset Variables (Dark) */
-  --mindset-bg: #0B0C0E;
-  --mindset-surface: #141619;
-  --mindset-ink: #F5F6F8;
-  --mindset-ghost: #5B626D;
-  --mindset-trace: #3A3F47;
-  --mindset-core: #F5F6F8;
-  --mindset-hair: rgba(245,246,248,0.08);
-
-  /* VS Code Syntax Colors (Dark) */
-  --vsc-kw: #569CD6;
-  --vsc-kw2: #C586C0;
-  --vsc-fn: #DCDCAA;
-  --vsc-cl: #4EC9B0;
-  --vsc-vr: #9CDCFE;
-  --vsc-op: #D4D4D4;
-  --vsc-st: #CE9178;
-}
+  --accent-foreground: #000000;}
 
 @theme inline {
   --color-background: var(--background);
