@@ -133,16 +133,16 @@ export function Navigation() {
         <div 
           className={cn(
             "relative flex items-center justify-between gap-4 px-4 py-1.5 transition-all duration-500",
-            "bg-black dark:bg-white shadow-2xl rounded-b-[24px]",
+            "bg-black dark:bg-white shadow-2xl rounded-b-lg md:rounded-b-[24px]",
             isScrolled ? "pb-1.5" : "pb-2.5",
             "w-[calc(100vw-2rem)] md:w-auto"
           )}
         >
           {/* Inverse Corners for sticky top connection */}
-          <svg className="absolute top-0 -left-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
+          <svg className="hidden md:block absolute top-0 -left-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
             <path d="M 0 0 L 24 0 L 24 24 A 24 24 0 0 0 0 0 Z" />
           </svg>
-          <svg className="absolute top-0 -right-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
+          <svg className="hidden md:block absolute top-0 -right-[24px] w-[24px] h-[24px] text-black dark:text-white fill-current pointer-events-none" viewBox="0 0 24 24">
             <path d="M 0 0 L 24 0 A 24 24 0 0 0 0 24 L 0 0 Z" />
           </svg>
 

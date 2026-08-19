@@ -30,7 +30,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
    a glassy blur once composited onto a dark canvas. */
 const PORTRAIT = "/assets/Hero/portrait.webp";
 
-const HEADLINE = ["I engineer", "digital", "experiences."];
+const HEADLINE = ["I engineer", "digital experiences."];
 
 /* Small glassy triangular prisms scattered across the whole hero. The two-tone
    facet (bright half meets shadow half at the vertical ridge) reads as a folded
@@ -195,7 +195,9 @@ function MagneticButton({ children }: { children: React.ReactNode }) {
 function SocialRail({ className }: { className?: string }) {
   return (
     <ul className={cn("flex items-center gap-2", className)}>
-      {socials.map((s) => {
+      {socials
+        .filter((s) => s.icon === "github" || s.icon === "linkedin")
+        .map((s) => {
         const Icon = socialIcons[s.icon];
         return (
           <li key={s.name}>
@@ -204,10 +206,26 @@ function SocialRail({ className }: { className?: string }) {
               target={s.icon === "mail" ? undefined : "_blank"}
               rel={s.icon === "mail" ? undefined : "noreferrer"}
               title={s.name}
-              className="flex h-9 w-9 items-center justify-center rounded-sm border border-[var(--border)] text-[var(--muted)] transition-[color,transform,border-color] duration-300 hover:-translate-y-0.5 hover:border-[var(--ink)] hover:text-[var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--glow)]"
+              className="group flex h-7 w-7 md:h-9 md:min-w-0 md:w-auto md:px-3 md:gap-2.5 items-center justify-center rounded-full bg-[var(--ink)] text-[var(--bg-0)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 hover:shadow-[0_8px_16px_-4px_rgba(0,0,0,0.3)] hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--glow)]"
             >
-              <Icon className="h-[18px] w-[18px]" />
-              <span className="sr-only">{s.name}</span>
+              <Icon className="h-[16px] w-[16px] md:h-[18px] md:w-[18px] shrink-0" />
+              
+              <span className="relative z-10 sr-only md:not-sr-only md:block">
+                <span className="relative flex [transform-style:preserve-3d] transition-transform duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:[transform:rotateX(90deg)]">
+                  {/* Ghost element for sizing */}
+                  <span className="invisible flex items-center text-[12.5px] font-medium tracking-wide">
+                    {s.name}
+                  </span>
+                  {/* Front Face */}
+                  <span className="absolute inset-0 flex items-center text-[12.5px] font-medium tracking-wide transition-opacity duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:opacity-0 [transform:translateZ(9px)]">
+                    {s.name}
+                  </span>
+                  {/* Bottom Face (rotates up to the front) */}
+                  <span className="absolute inset-0 flex items-center text-[12.5px] font-medium tracking-wide opacity-0 transition-opacity duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:opacity-100 [transform:rotateX(-90deg)_translateZ(9px)]">
+                    {s.name}
+                  </span>
+                </span>
+              </span>
             </a>
           </li>
         );
@@ -278,8 +296,6 @@ function SchematicNode({
         // lift the open node above its siblings so the panel isn't painted under them
         zIndex: active ? 40 : undefined,
       }}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
     >
       {/* trace — draws left-to-right, out of the portrait's silhouette */}
       <motion.span
@@ -302,6 +318,8 @@ function SchematicNode({
           onClick={onToggle}
           onFocus={onEnter}
           onBlur={onLeave}
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
           className={cn(
             "w-max max-w-full rounded-sm border border-[var(--border)] px-3 py-1.5 text-left shadow-[0_12px_28px_rgba(0,0,0,0.18)] transition-shadow duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--glow)]",
             NODE_SURFACE
@@ -520,7 +538,7 @@ export function Hero() {
         <div className="grid h-full grid-cols-1 pb-[clamp(58px,8vh,72px)] pt-[calc(env(safe-area-inset-top)+104px)] min-[1100px]:grid-cols-[minmax(0,1.35fr)_clamp(320px,26vw,420px)_minmax(0,0.95fr)] min-[1100px]:gap-8 min-[1100px]:pt-[calc(env(safe-area-inset-top)+84px)] min-[1100px]:pb-[clamp(20px,4vh,44px)]">
           {/* LEFT margin — on mobile this splits to the top and bottom of the
               poster; at >=1100px the two groups sit together, centered. */}
-          <div className="flex h-full flex-col justify-between min-[1100px]:justify-center min-[1100px]:gap-7">
+          <div className="flex h-full flex-col justify-between min-[1100px]:justify-center min-[1100px]:gap-7 relative">
             <div>
               <motion.p
                 className="eyebrow"
@@ -536,7 +554,7 @@ export function Hero() {
                   aligns with the nav, 96px overflows its own clip mask. */}
               <h1 className="display mt-4 text-[clamp(36px,5vw,68px)] text-[var(--ink)]">
                 {HEADLINE.map((line, i) => (
-                  <span key={line} className="block overflow-hidden">
+                  <span key={line} className="block overflow-hidden pb-2 -mb-2">
                     <motion.span
                       className="block"
                       initial={{ y: "110%" }}
@@ -554,7 +572,7 @@ export function Hero() {
                 the centered column instead of a bottom-pinned group. */}
             <div className="min-[1100px]:contents">
               <motion.p
-                className="max-w-[46ch] text-[clamp(15px,1.3vw,18px)] leading-[1.55] tracking-[-0.005em] text-[var(--muted)]"
+                className="max-w-[46ch] text-[13px] md:text-[clamp(15px,1.3vw,18px)] leading-[1.55] tracking-[-0.005em] text-[var(--muted)]"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: shown ? 1 : 0, y: shown ? 0 : 12 }}
                 transition={tr(600, 600)}
@@ -572,68 +590,31 @@ export function Hero() {
                 <MagneticButton>
                   {/* rounded-sm overrides Button's default rounded-full — the
                       theme reads sharp/schematic, not pill-shaped. */}
-                  <Button size="lg" className="rounded-sm" onClick={() => router.push("/projects")}>
+                  <Button size="lg" className="rounded-sm h-10 px-5 text-sm md:h-12 md:px-8 md:text-base" onClick={() => router.push("/projects")}>
                     Explore Work
                   </Button>
                 </MagneticButton>
                 <Button
                   variant="ghost"
                   size="lg"
-                  className="link-underline rounded-sm px-1 hover:bg-transparent"
+                  className="link-underline rounded-sm px-1 hover:bg-transparent h-10 text-sm md:h-12 md:text-base"
                   onClick={() => router.push("/contact")}
                 >
                   Contact →
                 </Button>
               </motion.div>
 
-              {/* Nodes collapse to a chip row below 1100px — there is no margin
-                  for them to live in, and traces would connect to nothing. */}
+
+
+              {/* the right margin doesn't exist below 1100px, so the rail
+                  is pinned to the bottom right of the container instead */}
               <motion.div
-                className="mt-6 min-[1100px]:hidden"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: shown ? 1 : 0, y: shown ? 0 : 12 }}
+                className="absolute right-0 bottom-0 min-[1100px]:hidden"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: shown ? 1 : 0 }}
                 transition={tr(900, 600)}
               >
-                <div className="flex flex-wrap gap-2">
-                  {NODES.map((n) => (
-                    <button
-                      key={n.id}
-                      type="button"
-                      aria-expanded={activeId === n.id}
-                      onClick={() => setActiveId(activeId === n.id ? null : n.id)}
-                      className={cn(
-                        "mono flex items-center gap-2 rounded-sm border px-3 py-1.5 text-[11px] uppercase tracking-[0.14em] transition-colors duration-200",
-                        activeId === n.id
-                          ? cn("border-transparent", NODE_SURFACE)
-                          : "border-[var(--border)] text-[var(--ink)]"
-                      )}
-                    >
-                      <span className="h-[3px] w-[3px] rounded-full bg-current" />
-                      {n.short}
-                    </button>
-                  ))}
-                </div>
-
-                <AnimatePresence initial={false}>
-                  {activeNode && (
-                    <motion.div
-                      key={activeNode.id}
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.24, ease: EASE }}
-                      className="overflow-hidden"
-                    >
-                      <div className={cn("mt-3 rounded-sm px-3 py-2.5", NODE_SURFACE)}>
-                        <NodeDetail node={activeNode} />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* the right margin doesn't exist below 1100px, so the rail
-                    rides along with the chips instead */}
-                <SocialRail className="mt-5" />
+                <SocialRail className="flex-col gap-3" />
               </motion.div>
             </div>
           </div>
@@ -645,7 +626,7 @@ export function Hero() {
           {/* RIGHT margin — nodes top-aligned to the shoulder, status pinned. */}
           <div className="hidden min-[1100px]:flex min-[1100px]:flex-col min-[1100px]:items-end min-[1100px]:pt-[8vh] min-[1100px]:pr-[20%]">
             <div className="flex flex-col items-start w-fit h-full">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col items-start gap-4">
                 {NODES.map((n, i) => (
                   <SchematicNode
                     key={n.id}

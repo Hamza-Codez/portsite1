@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <TechStack />
       <Process />
+      <TechStack />
       <Skills />
       <Credentials />
       <Connect />

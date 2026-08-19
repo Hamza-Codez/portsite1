@@ -27,7 +27,7 @@ const BackgroundWaves = () => {
           >
             <motion.svg
               viewBox="0 0 2000 1000"
-              className="w-[200vw] h-full object-cover absolute bottom-0"
+              className="w-[200vw] h-[40%] md:h-full object-cover absolute bottom-0"
               preserveAspectRatio="none"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
@@ -44,7 +44,7 @@ const BackgroundWaves = () => {
           >
             <motion.svg
               viewBox="0 0 2000 1000"
-              className="w-[200vw] h-full object-cover absolute bottom-0"
+              className="w-[200vw] h-[40%] md:h-full object-cover absolute bottom-0"
               preserveAspectRatio="none"
               animate={{ x: ["-50%", "0%"] }}
               transition={{ repeat: Infinity, duration: 75, ease: "linear" }}
@@ -61,7 +61,7 @@ const BackgroundWaves = () => {
           >
             <motion.svg
               viewBox="0 0 2000 1000"
-              className="w-[200vw] h-full object-cover absolute bottom-0"
+              className="w-[200vw] h-[40%] md:h-full object-cover absolute bottom-0"
               preserveAspectRatio="none"
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, duration: 90, ease: "linear" }}

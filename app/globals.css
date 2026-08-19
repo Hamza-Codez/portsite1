@@ -59,6 +59,11 @@
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-space-grotesk: var(--font-space-grotesk);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
 }
 
 body {
@@ -143,6 +148,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"], input[ty
    Editorial typography
 --------------------------------------------------------------------------- */
 .display {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
   font-weight: 560;
   letter-spacing: -0.045em;
   line-height: 0.92;
@@ -150,6 +156,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"], input[ty
 }
 
 .headline {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
   font-weight: 560;
   letter-spacing: -0.035em;
   line-height: 1;
